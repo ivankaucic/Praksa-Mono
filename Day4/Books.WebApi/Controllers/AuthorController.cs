@@ -155,7 +155,7 @@ namespace Books.WebApi.Controllers
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (reader.HasRows)
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
