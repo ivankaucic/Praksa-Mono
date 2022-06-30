@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Book_Application", "Book_Application.csproj", "{90FBA60E-E6D6-4FFE-B209-744266A77725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Book_Application", "Book_Application.csproj", "{90FBA60E-E6D6-4FFE-B209-744266A77725}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Book_Application.Servis", "..\Book_Application.Servis\Book_Application.Servis.csproj", "{9E6BA14F-AE12-40BF-B203-4179B1F260FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{90FBA60E-E6D6-4FFE-B209-744266A77725}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90FBA60E-E6D6-4FFE-B209-744266A77725}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90FBA60E-E6D6-4FFE-B209-744266A77725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E6BA14F-AE12-40BF-B203-4179B1F260FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E6BA14F-AE12-40BF-B203-4179B1F260FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E6BA14F-AE12-40BF-B203-4179B1F260FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E6BA14F-AE12-40BF-B203-4179B1F260FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
