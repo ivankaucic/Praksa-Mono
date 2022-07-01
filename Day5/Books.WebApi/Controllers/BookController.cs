@@ -61,10 +61,10 @@ namespace Books.WebApi.Controllers
         [Route("add_book_to_database")]
         public HttpResponseMessage Post([FromBody] BookRest book)
         {
-            Book newBook = new Book(book.Author, book.Name, book.Genre); /* domain */
+            Book newAuthor = new Book(book.Author, book.Name, book.Genre); /* domain */
 
             BookService bookService = new BookService();
-            var result = bookService.Post(newBook);
+            var result = bookService.Post(newAuthor);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Couldn't put new author in database.");

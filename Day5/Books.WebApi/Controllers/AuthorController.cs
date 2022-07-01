@@ -24,15 +24,16 @@ namespace Books.WebApi.Controllers
         [Route("author_list")]
         public HttpResponseMessage GetAll()
         {
-
+            List<Author> authors = new List<Author>();
+            List<AuthorRest> booksRest = new List<AuthorRest>();
             AuthorService authorService = new AuthorService();
-            var result = authorService.GetAll();
-            if(result == null)
+            authors = authorService.GetAll();
+            if(authors == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Database is empty.");
             }
 
-            else return Request.CreateResponse(HttpStatusCode.OK, result);
+            else return Request.CreateResponse(HttpStatusCode.OK, authors);
 
 
         }
@@ -59,6 +60,8 @@ namespace Books.WebApi.Controllers
         [Route("add_author_to_database")]
         public HttpResponseMessage Post([FromBody] Author author)
         {
+
+            Author newBook = new Author(author.AuthorName, author.Age, author.Nationality);
 
             AuthorService authorService = new AuthorService();
             var result = authorService.Post(author);
@@ -103,4 +106,21 @@ namespace Books.WebApi.Controllers
             else return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
+
+    public class AuthorRest
+    {
+        public string AuthorName { get; set; }
+        public int Age { get; set; }
+        public string Nationality { get; set; }
+
+        public AuthorRest(string authorName, int authorAge, string authorNationality)
+        {
+            this.AuthorName = authorName;
+            this.Age = authorAge;
+            this.Nationality = authorNationality;
+        }
+        
+    }
+
+
 }

@@ -25,5 +25,13 @@ namespace Books.Model.Models
         {
 
         }
+
+        public Author(string authorName, int authorAge, string authorNationality)
+        {
+            this.AuthorName = authorName;
+            this.Age = authorAge;
+            this.Nationality = authorNationality;
+        }
+
     }
 }
