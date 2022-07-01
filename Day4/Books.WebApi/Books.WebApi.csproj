@@ -156,14 +156,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
+    <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Author.cs" />
-    <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\uniqueidentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -248,6 +246,20 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Books.Common\Books.Common.csproj">
+      <Project>{43bfd5dc-9444-4c3d-ad57-3fbf447bf25c}</Project>
+      <Name>Books.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Books.Model\Books.Model.csproj">
+      <Project>{0477E1E7-9D56-4AC0-AC8E-FB32A83C35B3}</Project>
+      <Name>Books.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Books.Service\Books.Service.csproj">
+      <Project>{AB639292-9540-4CDC-AE65-8B7A08DD3072}</Project>
+      <Name>Books.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

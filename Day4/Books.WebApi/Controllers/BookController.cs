@@ -1,33 +1,25 @@
-﻿using System;
+﻿using Books.Model.Models;
+using Books.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Data.SqlClient;
-using System.Data;
-using Books.Model.Models;
-using Books.Service;
 
 namespace Books.WebApi.Controllers
 {
-    public class AuthorController : ApiController
+    public class BookController : ApiController
     {
-        public AuthorController()
-        {
-
-        }
-
-        string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
-        // GET api/values
+        // GET: api/Book
         [HttpGet]
-        [Route("author_list")]
+        [Route("book_list")]
         public HttpResponseMessage GetAll()
         {
 
-            AuthorService authorService = new AuthorService();
+            BookService authorService = new BookService();
             var result = authorService.GetAll();
-            if(result == null)
+            if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Database is empty.");
             }
@@ -37,31 +29,30 @@ namespace Books.WebApi.Controllers
 
         }
 
-        // GET api/values/5
+        // GET: api/Book/5
         [HttpGet]
-        [Route("author_list_by_id")]
+        [Route("book_list_by_id")]
         public HttpResponseMessage Get([FromUri] System.Guid id)
         {
-            AuthorService authorService = new AuthorService();
-            var result = authorService.Get(id);
+            BookService bookService = new BookService();
+            var result = bookService.Get(id);
             if (result == null)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
+                return Request.CreateResponse(HttpStatusCode.NotFound, "No book with that ID in database.");
             }
 
             else return Request.CreateResponse(HttpStatusCode.OK, result);
 
         }
-    
 
-        // POST api/values
+        // POST: api/Book
         [HttpPost]
-        [Route("add_author_to_database")]
-        public HttpResponseMessage Post([FromBody] Author author)
+        [Route("add_book_to_database")]
+        public HttpResponseMessage Post([FromBody] Book book)
         {
 
-            AuthorService authorService = new AuthorService();
-            var result = authorService.Post(author);
+            BookService bookService = new BookService();
+            var result = bookService.Post(book);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Couldn't put new author in database.");
@@ -71,13 +62,13 @@ namespace Books.WebApi.Controllers
 
         }
 
-        // PUT api/values/5
+        // PUT: api/Book/5
         [HttpPut]
-        [Route("update_author_item")]
-        public HttpResponseMessage Put([FromUri] System.Guid id, [FromBody] Author author)
+        [Route("update_book_item")]
+        public HttpResponseMessage Put([FromUri] System.Guid id, [FromBody] Book book)
         {
-            AuthorService authorService = new AuthorService();
-            var result = authorService.Put(id, author);
+            BookService bookService = new BookService();
+            var result = bookService.Put(id, book);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
@@ -88,13 +79,13 @@ namespace Books.WebApi.Controllers
 
         }
 
-        // DELETE api/values/5
+        // DELETE: api/Book/5
         [HttpDelete]
-        [Route("delete_author")]
+        [Route("delete_book")]
         public HttpResponseMessage Delete(System.Guid id)
         {
-            AuthorService authorService = new AuthorService();
-            var result = authorService.Delete(id);
+            BookService bookService = new BookService();
+            var result = bookService.Delete(id);
             if (result == false)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");

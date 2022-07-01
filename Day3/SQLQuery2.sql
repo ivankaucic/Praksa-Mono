@@ -29,7 +29,7 @@ GO
 CREATE TABLE dbo.Book
 (
 	BookID uniqueidentifier not null primary key,
-	Author uniqueidentifier not null constraint FK_Author foreign key REFERENCES dbo.Author(AuthorID),
+	Author uniqueidentifier not null constraint FK_Author foreign key REFERENCES dbo.Author(AuthorID) ON DELETE CASCADE,
 	BookName [varchar](50) not null,
 	Genre [varchar](50) not null,
 

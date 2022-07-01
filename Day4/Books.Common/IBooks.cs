@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Books.Common
 {
-    public class Class1
+    public interface IBooks
     {
+
     }
 }

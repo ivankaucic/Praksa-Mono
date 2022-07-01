@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Books.Model.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Books.WebApi.Models
+namespace Books.Model.Models
 {
-    public class Author
+    public class Author : IAuthor
     {
         public System.Guid AuthorID { get; set; }
         public string AuthorName { get; set; }

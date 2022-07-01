@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Books.Model.Common
+namespace Books.Dal
 {
-    public class Class1
+    public class Dal
     {
     }
 }
