@@ -27,6 +27,12 @@ namespace Books.Model.Models
 
         }
 
+        public Book(System.Guid author, string bookName, string genre)
+        {
+            this.Author = author;
+            this.Name = bookName;
+            this.Genre = genre;
+        }
       
     }
 }

@@ -252,6 +252,10 @@
       <Project>{43bfd5dc-9444-4c3d-ad57-3fbf447bf25c}</Project>
       <Name>Books.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Books.Model.Common\Books.Model.Common.csproj">
+      <Project>{63f96c68-f7be-4e5d-8699-0cc111e7e950}</Project>
+      <Name>Books.Model.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Books.Model\Books.Model.csproj">
       <Project>{0477E1E7-9D56-4AC0-AC8E-FB32A83C35B3}</Project>
       <Name>Books.Model</Name>

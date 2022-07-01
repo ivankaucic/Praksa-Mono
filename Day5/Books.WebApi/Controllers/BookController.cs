@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Books.Model.Common;
 
 namespace Books.WebApi.Controllers
 {
@@ -16,15 +17,25 @@ namespace Books.WebApi.Controllers
         [Route("book_list")]
         public HttpResponseMessage GetAll()
         {
-
+            List<Book> books = new List<Book>();
+            List<BookRest> booksRest = new List<BookRest>();
             BookService authorService = new BookService();
-            var result = authorService.GetAll();
-            if (result == null)
+            books = authorService.GetAll();
+
+            if (books == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Database is empty.");
             }
 
-            else return Request.CreateResponse(HttpStatusCode.OK, result);
+            else 
+            { 
+                foreach (Book book in books)
+                {
+                    booksRest.Add(new BookRest(book.Author, book.Name, book.Genre));
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, booksRest); 
+            }
+        
 
 
         }
@@ -48,11 +59,12 @@ namespace Books.WebApi.Controllers
         // POST: api/Book
         [HttpPost]
         [Route("add_book_to_database")]
-        public HttpResponseMessage Post([FromBody] Book book)
+        public HttpResponseMessage Post([FromBody] BookRest book)
         {
+            Book newBook = new Book(book.Author, book.Name, book.Genre); /* domain */
 
             BookService bookService = new BookService();
-            var result = bookService.Post(book);
+            var result = bookService.Post(newBook);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Couldn't put new author in database.");
@@ -94,4 +106,24 @@ namespace Books.WebApi.Controllers
             else return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
+
+    public class BookRest
+    {
+
+        public System.Guid Author { get; set; }
+        public string Name { get; set; }
+        public string Genre { get; set; }
+
+        public BookRest(Guid author, string name, string genre)
+        {
+            this.Author = author;
+            this.Name = name;
+            this.Genre = genre;
+        }
+
+
+    }
+
+
+
 }
