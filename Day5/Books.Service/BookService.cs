@@ -11,34 +11,34 @@ namespace Books.Service
 {
     public class BookService : IBookService
     {
-       public List<Books.Model.Models.Book> GetAll()
+       public async Task<List<Books.Model.Models.Book>> GetAllAsync()
         {
             var bookRepository = new BookRepository();
-            return bookRepository.GetAll();
+            return await bookRepository.GetAllAsync();
         }
 
-       public Books.Model.Models.Book Get(Guid id)
+       public async Task<Books.Model.Models.Book> GetAsync(Guid id)
         {
             var bookRepository = new BookRepository();
-            return bookRepository.Get(id);
+            return await bookRepository.GetAsync(id);
         }
 
-        public Books.Model.Models.Book Post(Books.Model.Models.Book book)
+        public async Task<Books.Model.Models.Book> PostAsync(Books.Model.Models.Book book)
         {
             var bookRepository = new BookRepository();
-            return bookRepository.Post(book);
+            return await bookRepository.PostAsync(book);
         }
 
-        public Books.Model.Models.Book Put(System.Guid id, Books.Model.Models.Book book)
+        public async Task<Books.Model.Models.Book> PutAsync(System.Guid id, Books.Model.Models.Book book)
         {
             var bookRepository = new BookRepository();
-            return bookRepository.Put(id, book);
+            return await bookRepository.PutAsync(id, book);
         }
 
-        public bool Delete(System.Guid id)
+        public async Task<bool> DeleteAsync(System.Guid id)
         {
             var bookRepository = new BookRepository();
-            return bookRepository.Delete(id);
+            return await bookRepository.DeleteAsync(id);
         }
 
     }

@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Books.Model.Models;
 using Books.Service;
+using System.Threading.Tasks;
 
 namespace Books.WebApi.Controllers
 {
@@ -22,12 +23,12 @@ namespace Books.WebApi.Controllers
         // GET api/values
         [HttpGet]
         [Route("author_list")]
-        public HttpResponseMessage GetAll()
+        public async Task<HttpResponseMessage> GetAllAsync()
         {
             List<Author> authors = new List<Author>();
             List<AuthorRest> booksRest = new List<AuthorRest>();
             AuthorService authorService = new AuthorService();
-            authors = authorService.GetAll();
+            authors = await authorService.GetAllAsync();
             if(authors == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Database is empty.");
@@ -41,16 +42,20 @@ namespace Books.WebApi.Controllers
         // GET api/values/5
         [HttpGet]
         [Route("author_list_by_id")]
-        public HttpResponseMessage Get([FromUri] System.Guid id)
+        public async Task<HttpResponseMessage> GetAsync([FromUri] System.Guid id)
         {
             AuthorService authorService = new AuthorService();
-            var result = authorService.Get(id);
+            var result = await authorService.GetAsync(id);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
             }
 
-            else return Request.CreateResponse(HttpStatusCode.OK, result);
+            else 
+            {
+                AuthorRest authorById = new AuthorRest(result.AuthorName, result.Age, result.Nationality);
+                return Request.CreateResponse(HttpStatusCode.OK, authorById); 
+            }
 
         }
     
@@ -58,13 +63,13 @@ namespace Books.WebApi.Controllers
         // POST api/values
         [HttpPost]
         [Route("add_author_to_database")]
-        public HttpResponseMessage Post([FromBody] Author author)
+        public async Task<HttpResponseMessage> PostAsync([FromBody] Author author)
         {
 
             Author newBook = new Author(author.AuthorName, author.Age, author.Nationality);
 
             AuthorService authorService = new AuthorService();
-            var result = authorService.Post(author);
+            var result = await authorService.PostAsync(author);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Couldn't put new author in database.");
@@ -77,10 +82,10 @@ namespace Books.WebApi.Controllers
         // PUT api/values/5
         [HttpPut]
         [Route("update_author_item")]
-        public HttpResponseMessage Put([FromUri] System.Guid id, [FromBody] Author author)
+        public async Task<HttpResponseMessage> PutAsync([FromUri] System.Guid id, [FromBody] Author author)
         {
             AuthorService authorService = new AuthorService();
-            var result = authorService.Put(id, author);
+            var result = await authorService.PutAsync(id, author);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
@@ -94,10 +99,10 @@ namespace Books.WebApi.Controllers
         // DELETE api/values/5
         [HttpDelete]
         [Route("delete_author")]
-        public HttpResponseMessage Delete(System.Guid id)
+        public async Task<HttpResponseMessage> DeleteAsync(System.Guid id)
         {
             AuthorService authorService = new AuthorService();
-            var result = authorService.Delete(id);
+            var result = await authorService.DeleteAsync(id);
             if (result == false)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");

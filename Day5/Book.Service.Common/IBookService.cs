@@ -8,10 +8,10 @@ namespace Book.Service.Common
 {
     public interface IBookService
     {
-        List<Books.Model.Models.Book> GetAll();
-        Books.Model.Models.Book Get(Guid id);
-        Books.Model.Models.Book Post(Books.Model.Models.Book book);
-        Books.Model.Models.Book Put(System.Guid id, Books.Model.Models.Book book);
-        bool Delete(System.Guid id);
+        Task<List<Books.Model.Models.Book>> GetAllAsync();
+        Task<Books.Model.Models.Book> GetAsync(Guid id);
+        Task<Books.Model.Models.Book> PostAsync(Books.Model.Models.Book book);
+        Task<Books.Model.Models.Book> PutAsync(System.Guid id, Books.Model.Models.Book book);
+        Task<bool> DeleteAsync(System.Guid id);
     }
 }

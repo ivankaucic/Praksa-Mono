@@ -12,7 +12,7 @@ namespace Books.Repository
 {
     public class BookRepository : IBookRepository
     {
-        public List<Book> GetAll()
+        public async Task<List<Book>> GetAllAsync()
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -24,7 +24,7 @@ namespace Books.Repository
                 SqlCommand command = new SqlCommand("SELECT * FROM dbo.Book;", conn);
 
                 conn.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
 
                 if (reader.HasRows)
                 {
@@ -46,7 +46,7 @@ namespace Books.Repository
 
         }
 
-        public Book Get(Guid id)
+        public async Task<Book> GetAsync(Guid id)
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -56,7 +56,7 @@ namespace Books.Repository
                 SqlCommand command = new SqlCommand("SELECT Count(*) FROM dbo.Book WHERE BookID = @param1", conn);
                 conn.Open();
                 command.Parameters.AddWithValue("@param1", id);
-                count = (int)command.ExecuteScalar();
+                count = (int)await command.ExecuteScalarAsync();
 
                 if (count == 0)
                 {
@@ -71,7 +71,7 @@ namespace Books.Repository
                 conn.Open();
                 command.Parameters.AddWithValue("@param1", id);
 
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -91,7 +91,7 @@ namespace Books.Repository
 
         }
 
-        public Book Post(Book book)
+        public async Task<Book> PostAsync(Book book)
         {
 
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
@@ -118,7 +118,7 @@ namespace Books.Repository
                     try
                     {
                         conn.Open();
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                         return newBook;
                     }
                     catch (SqlException e)
@@ -132,7 +132,7 @@ namespace Books.Repository
 
         }
 
-        public Book Put(System.Guid id, Book book)
+        public async Task<Book> PutAsync(System.Guid id, Book book)
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -143,7 +143,7 @@ namespace Books.Repository
                 command.Parameters.AddWithValue("@param1", id);
                 conn.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     if (reader.HasRows)
                     {
@@ -159,7 +159,7 @@ namespace Books.Repository
 
                             Book updatedBook = new Book(id, book.Author, book.Name, book.Genre);
 
-                            cmd.ExecuteNonQuery();
+                            await cmd.ExecuteNonQueryAsync();
                             return updatedBook;
                         }
                     }
@@ -171,7 +171,7 @@ namespace Books.Repository
 
         }
 
-        public bool Delete(System.Guid id)
+        public async Task<bool> DeleteAsync(System.Guid id)
         {
 
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
@@ -183,7 +183,7 @@ namespace Books.Repository
                 conn.Open();
                 command.Parameters.AddWithValue("@param1", id);
 
-                count = (int)command.ExecuteScalar();
+                count = (int)await command.ExecuteScalarAsync();
 
                 if (count == 0)
                 {
@@ -197,7 +197,7 @@ namespace Books.Repository
                 SqlCommand command = new SqlCommand("DELETE FROM dbo.Book WHERE BookID = @param1", conn);
                 command.Parameters.AddWithValue("@param1", id);
                 conn.Open();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 return true;
             }
 

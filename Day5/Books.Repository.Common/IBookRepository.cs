@@ -9,10 +9,10 @@ namespace Books.Repository.Common
 {
     public interface IBookRepository
     {
-        List<Book> GetAll();
-        Book Get(Guid id);
-        Book Post(Book book);
-        Book Put(System.Guid id, Book book);
-        bool Delete(System.Guid id);
+        Task<List<Book>> GetAllAsync();
+        Task<Book> GetAsync(Guid id);
+        Task<Book> PostAsync(Book book);
+        Task<Book> PutAsync(System.Guid id, Book book);
+        Task<bool> DeleteAsync(System.Guid id);
     }
 }

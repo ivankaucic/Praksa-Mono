@@ -12,34 +12,34 @@ namespace Books.Service
 {
     public class AuthorService : IAuthorService
     {
-        public List<Author> GetAll()
+        public async Task<List<Author>> GetAllAsync()
         {
             var authorRepository = new AuthorRepository();
-            return authorRepository.GetAll();
+            return await authorRepository.GetAllAsync();
         }
 
-        public Author Get(Guid id)
+        public async Task<Author> GetAsync(Guid id)
         {
             var authorRepository = new AuthorRepository();
-            return authorRepository.Get(id);
+            return await authorRepository.GetAsync(id);
         }
 
-        public Author Post(Author author)
+        public async Task<Author> PostAsync(Author author)
         {
             var authorRepository = new AuthorRepository();
-            return authorRepository.Post(author);
+            return await authorRepository.PostAsync(author);
         }
 
-        public Author Put(System.Guid id, Author author)
+        public async Task<Author> PutAsync(System.Guid id, Author author)
         {
             var authorRepository = new AuthorRepository();
-            return authorRepository.Put(id, author);
+            return await authorRepository.PutAsync(id, author);
         }
 
-        public bool Delete(System.Guid id)
+        public async Task<bool> DeleteAsync(System.Guid id)
         {
             var authorRepository = new AuthorRepository();
-            return authorRepository.Delete(id);
+            return await authorRepository.DeleteAsync(id);
         }
 
 

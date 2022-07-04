@@ -14,7 +14,7 @@ namespace Books.Repository
     public class AuthorRepository : IAuthorRepository
     {
 
-        public List<Author> GetAll()
+        public async Task<List<Author>> GetAllAsync()
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -26,7 +26,8 @@ namespace Books.Repository
                 SqlCommand command = new SqlCommand("SELECT * FROM dbo.Author;", conn);
 
                 conn.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
 
                 if (reader.HasRows)
                 {
@@ -48,7 +49,7 @@ namespace Books.Repository
 
         }
 
-        public Author Get(Guid id)
+        public async Task<Author> GetAsync(Guid id)
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -58,7 +59,7 @@ namespace Books.Repository
                 SqlCommand command = new SqlCommand("SELECT Count(*) FROM dbo.Author WHERE AuthorID = @param1", conn);
                 conn.Open();
                 command.Parameters.AddWithValue("@param1", id);
-                count = (int)command.ExecuteScalar();
+                count = (int)await command.ExecuteScalarAsync();
 
                 if (count == 0)
                 {
@@ -73,7 +74,7 @@ namespace Books.Repository
                 conn.Open();
                 command.Parameters.AddWithValue("@param1", id);
 
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -93,7 +94,7 @@ namespace Books.Repository
 
         }
 
-        public Author Post(Author author)
+        public async Task<Author> PostAsync(Author author)
         {
 
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
@@ -120,7 +121,7 @@ namespace Books.Repository
                     try
                     {
                         conn.Open();
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                         return newAuthor;
                     }
                     catch (SqlException e)
@@ -134,7 +135,7 @@ namespace Books.Repository
 
         }
 
-        public Author Put(System.Guid id, Author author)
+        public async Task<Author> PutAsync(System.Guid id, Author author)
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -145,7 +146,7 @@ namespace Books.Repository
                 command.Parameters.AddWithValue("@param1", id);
                 conn.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     if (reader.HasRows)
                     {
@@ -161,7 +162,7 @@ namespace Books.Repository
 
                             Author updatedAuthor = new Author(id, author.AuthorName, author.Age, author.Nationality);
 
-                            cmd.ExecuteNonQuery();
+                            await cmd.ExecuteNonQueryAsync();
                             return updatedAuthor;
                         }
                     }
@@ -175,7 +176,7 @@ namespace Books.Repository
 
         }
 
-        public bool Delete(System.Guid id)
+        public async Task<bool> DeleteAsync(System.Guid id)
         {
 
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
@@ -187,7 +188,7 @@ namespace Books.Repository
                 conn.Open();
                 command.Parameters.AddWithValue("@param1", id);
 
-                count = (int)command.ExecuteScalar();
+                count = (int)await command.ExecuteScalarAsync();
 
                 if (count == 0)
                 {
@@ -201,7 +202,7 @@ namespace Books.Repository
                 SqlCommand command = new SqlCommand("DELETE FROM dbo.Author WHERE AuthorID = @param1", conn);
                 command.Parameters.AddWithValue("@param1", id);
                 conn.Open();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
                 return true;
             }
 

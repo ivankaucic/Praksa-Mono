@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Books.Model.Common;
+using System.Threading.Tasks;
 
 namespace Books.WebApi.Controllers
 {
@@ -15,12 +16,12 @@ namespace Books.WebApi.Controllers
         // GET: api/Book
         [HttpGet]
         [Route("book_list")]
-        public HttpResponseMessage GetAll()
+        public async Task<HttpResponseMessage> GetAllAsync()
         {
             List<Book> books = new List<Book>();
             List<BookRest> booksRest = new List<BookRest>();
             BookService authorService = new BookService();
-            books = authorService.GetAll();
+            books = await authorService.GetAllAsync();
 
             if (books == null)
             {
@@ -43,28 +44,31 @@ namespace Books.WebApi.Controllers
         // GET: api/Book/5
         [HttpGet]
         [Route("book_list_by_id")]
-        public HttpResponseMessage Get([FromUri] System.Guid id)
+        public async Task<HttpResponseMessage> GetAsync([FromUri] System.Guid id)
         {
             BookService bookService = new BookService();
-            var result = bookService.Get(id);
+            var result = await bookService.GetAsync(id);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No book with that ID in database.");
             }
 
-            else return Request.CreateResponse(HttpStatusCode.OK, result);
+            else {
+                BookRest bookById = new BookRest(result.Author, result.Name, result.Genre);
+                return Request.CreateResponse(HttpStatusCode.OK, bookById); 
+            }
 
         }
 
         // POST: api/Book
         [HttpPost]
         [Route("add_book_to_database")]
-        public HttpResponseMessage Post([FromBody] BookRest book)
+        public async Task<HttpResponseMessage> PostAsync([FromBody] BookRest book)
         {
-            Book newAuthor = new Book(book.Author, book.Name, book.Genre); /* domain */
+            Book newAuthor = new Book(book.Author, book.Name, book.Genre);
 
             BookService bookService = new BookService();
-            var result = bookService.Post(newAuthor);
+            var result = await bookService.PostAsync(newAuthor);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Couldn't put new author in database.");
@@ -77,10 +81,10 @@ namespace Books.WebApi.Controllers
         // PUT: api/Book/5
         [HttpPut]
         [Route("update_book_item")]
-        public HttpResponseMessage Put([FromUri] System.Guid id, [FromBody] Book book)
+        public async Task<HttpResponseMessage> PutAsync([FromUri] System.Guid id, [FromBody] Book book)
         {
             BookService bookService = new BookService();
-            var result = bookService.Put(id, book);
+            var result = await bookService.PutAsync(id, book);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
@@ -94,10 +98,10 @@ namespace Books.WebApi.Controllers
         // DELETE: api/Book/5
         [HttpDelete]
         [Route("delete_book")]
-        public HttpResponseMessage Delete(System.Guid id)
+        public async Task<HttpResponseMessage> DeleteAsync(System.Guid id)
         {
             BookService bookService = new BookService();
-            var result = bookService.Delete(id);
+            var result = await bookService.DeleteAsync(id);
             if (result == false)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
