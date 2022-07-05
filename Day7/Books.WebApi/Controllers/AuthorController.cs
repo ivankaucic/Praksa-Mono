@@ -9,31 +9,41 @@ using System.Data;
 using Books.Model.Models;
 using Books.Service;
 using System.Threading.Tasks;
+using Book.Service.Common;
 
 namespace Books.WebApi.Controllers
 {
     public class AuthorController : ApiController
     {
-        public AuthorController()
+        protected IAuthorService _service;
+
+        public AuthorController(IAuthorService service)
         {
-
+            this._service = service;
         }
-
         // GET api/values
         [HttpGet]
         [Route("author_list")]
         public async Task<HttpResponseMessage> GetAllAsync()
         {
             List<Author> authors = new List<Author>();
-            List<AuthorRest> booksRest = new List<AuthorRest>();
-            AuthorService authorService = new AuthorService();
-            authors = await authorService.GetAllAsync();
-            if(authors == null)
+            List<AuthorRest> authorsRest = new List<AuthorRest>();
+            
+            authors = await _service.GetAllAsync();
+
+            if (authors == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Database is empty.");
             }
 
-            else return Request.CreateResponse(HttpStatusCode.OK, authors);
+            else 
+            { 
+                foreach(Author author in authors)
+                {
+                    authorsRest.Add(new AuthorRest(author.AuthorName, author.Age, author.Nationality));
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, authorsRest); 
+            }
 
 
         }
@@ -43,8 +53,8 @@ namespace Books.WebApi.Controllers
         [Route("author_list_by_id")]
         public async Task<HttpResponseMessage> GetAsync([FromUri] System.Guid id)
         {
-            AuthorService authorService = new AuthorService();
-            var result = await authorService.GetAsync(id);
+            
+            var result = await _service.GetAsync(id);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
@@ -65,16 +75,15 @@ namespace Books.WebApi.Controllers
         public async Task<HttpResponseMessage> PostAsync([FromBody] Author author)
         {
 
-            Author newBook = new Author(author.AuthorName, author.Age, author.Nationality);
-
-            AuthorService authorService = new AuthorService();
-            var result = await authorService.PostAsync(author);
+            Author newAuthor = new Author(author.AuthorID, author.AuthorName, author.Age, author.Nationality);
+            
+            var result = await _service.PostAsync(newAuthor);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Couldn't put new author in database.");
             }
 
-            else return Request.CreateResponse(HttpStatusCode.OK, result);
+            else return Request.CreateResponse(HttpStatusCode.OK, newAuthor);
 
         }
 
@@ -82,9 +91,8 @@ namespace Books.WebApi.Controllers
         [HttpPut]
         [Route("update_author_item")]
         public async Task<HttpResponseMessage> PutAsync([FromUri] System.Guid id, [FromBody] Author author)
-        {
-            AuthorService authorService = new AuthorService();
-            var result = await authorService.PutAsync(id, author);
+        {            
+            var result = await _service.PutAsync(id, author);
             if (result == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
@@ -99,9 +107,8 @@ namespace Books.WebApi.Controllers
         [HttpDelete]
         [Route("delete_author")]
         public async Task<HttpResponseMessage> DeleteAsync(System.Guid id)
-        {
-            AuthorService authorService = new AuthorService();
-            var result = await authorService.DeleteAsync(id);
+        {           
+            var result = await _service.DeleteAsync(id);
             if (result == false)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "No one with that ID in database.");
