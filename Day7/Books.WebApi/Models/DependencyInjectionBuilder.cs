@@ -25,13 +25,9 @@ namespace Books.WebApi.Models
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<BookService>().As<IBookService>();
-            builder.RegisterType<BookRepository>().As<IBookRepository>();
-            builder.RegisterType<Books.Model.Models.Book>().As<IBook>();
-
-            builder.RegisterType<AuthorService>().As<IAuthorService>();
-            builder.RegisterType<AuthorRepository>().As<IAuthorRepository>();
-            builder.RegisterType<Author>().As<IAuthor>();           
+            builder.RegisterModule<DIModuleService>();
+            builder.RegisterModule<DIModuleRepository>();
+            builder.RegisterModule<DIModuleModel>();
 
             var container = builder.Build();
 

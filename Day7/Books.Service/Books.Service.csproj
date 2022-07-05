@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="AuthorService.cs" />
     <Compile Include="BookService.cs" />
+    <Compile Include="DIModuleService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -80,9 +80,14 @@
   <ItemGroup>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\DIModuleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Books.Common\Books.Common.csproj">
+      <Project>{43BFD5DC-9444-4C3D-AD57-3FBF447BF25C}</Project>
+      <Name>Books.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Books.Model.Common\Books.Model.Common.csproj">
       <Project>{63F96C68-F7BE-4E5D-8699-0CC111E7E950}</Project>
       <Name>Books.Model.Common</Name>
