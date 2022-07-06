@@ -9,6 +9,7 @@ using System.Web.Http;
 using Books.Model.Common;
 using System.Threading.Tasks;
 using Book.Service.Common;
+using Books.Common;
 
 namespace Books.WebApi.Controllers
 {
@@ -23,11 +24,17 @@ namespace Books.WebApi.Controllers
         // GET: api/Book
         [HttpGet]
         [Route("book_list")]
-        public async Task<HttpResponseMessage> GetAllAsync()
+        public async Task<HttpResponseMessage> GetAllAsync(int pageNumber, int itemsByPage, string orderBy, string sortBy,
+                                                                string genre)
         {
             List<Books.Model.Models.Book> books = new List<Books.Model.Models.Book>();
-            List<BookRest> booksRest = new List<BookRest>();         
-            books = await _service.GetAllAsync();
+            List<BookRest> booksRest = new List<BookRest>();
+
+            Paging page = new Paging(pageNumber, itemsByPage);
+            Sorting sort = new Sorting(orderBy, sortBy);
+            Filtering filter = new Filtering(genre);
+
+            books = await _service.GetAllAsync(page, sort, filter);
 
             if (books == null)
             {

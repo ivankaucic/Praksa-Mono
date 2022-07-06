@@ -10,6 +10,7 @@ using Books.Model.Models;
 using Books.Service;
 using System.Threading.Tasks;
 using Book.Service.Common;
+using Books.Common;
 
 namespace Books.WebApi.Controllers
 {
@@ -24,12 +25,17 @@ namespace Books.WebApi.Controllers
         // GET api/values
         [HttpGet]
         [Route("author_list")]
-        public async Task<HttpResponseMessage> GetAllAsync()
+        public async Task<HttpResponseMessage> GetAllAsync(int pageNumber, int itemsByPage, string orderBy, string sortBy,
+                                                                int? age, int? ageIsLower, int? ageIsHigher, string nationality)
         {
             List<Author> authors = new List<Author>();
             List<AuthorRest> authorsRest = new List<AuthorRest>();
-            
-            authors = await _service.GetAllAsync();
+
+            Paging page = new Paging(pageNumber, itemsByPage);
+            Sorting sort = new Sorting(orderBy, sortBy);
+            Filtering filter = new Filtering(age, ageIsLower, ageIsHigher, nationality);
+
+            authors = await _service.GetAllAsync(page, sort, filter);
 
             if (authors == null)
             {
