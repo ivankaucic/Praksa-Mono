@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Books.Common;
 using Books.Model.Models;
 using Books.Repository.Common;
 
@@ -14,7 +15,7 @@ namespace Books.Repository
     public class AuthorRepository : IAuthorRepository
     {
 
-        public async Task<List<Author>> GetAllAsync()
+        public async Task<List<Author>> GetAllAsync(Paging page, Sorting sort, Filtering filter)
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -23,9 +24,108 @@ namespace Books.Repository
 
                 List<Author> authors = new List<Author>();
 
-                SqlCommand command = new SqlCommand("SELECT * FROM dbo.Author;", conn);
+                /*da npr. na 2. stranici pocne s 3. elementom i ide do 4. elementa jer je 2 po stranici*/
+                int formula = ((page.PageNumber - 1) * page.ItemsByPage);
 
-                conn.Open();
+                bool flagForAndNoAndFlip = false;
+
+                SqlCommand command = new SqlCommand();
+                command.Connection = conn;                
+
+                StringBuilder stringBuilder = new StringBuilder("SELECT * FROM dbo.Author WHERE 1=1 ");
+
+                //if(filter.Age != null)
+                //{
+                //    if (flagForAndNoAndFlip == false)
+                //    {
+                //        stringBuilder.Append("WHERE AGE = @age ");
+                //        command.Parameters.AddWithValue("@age", filter.Age);
+                //        flagForAndNoAndFlip = true;
+                //    }
+                //    else
+                //    {
+                //        stringBuilder.Append("AND WHERE AGE = @age ");
+                //        command.Parameters.AddWithValue("@age", filter.Age);
+                //    }
+                //}
+
+                if(filter.Age != null)
+                {
+                    stringBuilder.Append("AND WHERE AGE = @age ");
+                    command.Parameters.AddWithValue("@age", filter.Age);
+                }
+
+                //if (filter.AgeIsLower != null)
+                //{
+                //    if (flagForAndNoAndFlip == false)
+                //    {
+                //        stringBuilder.Append("WHERE AGE < @ageIsHigher ");
+                //        command.Parameters.AddWithValue("@ageIsHigher", filter.AgeIsHigher);
+                //        flagForAndNoAndFlip = true;
+                //    }
+                //    else
+                //    {
+                //        stringBuilder.Append("AND WHERE AGE = @ageIsHigher ");
+                //        command.Parameters.AddWithValue("@ageIsHigher", filter.AgeIsHigher);
+                //    }
+                //}
+                if (filter.AgeIsHigher != null)
+                {
+                    stringBuilder.Append("AND WHERE AGE < @ageIsHigher ");
+                    command.Parameters.AddWithValue("@ageIsHigher", filter.AgeIsHigher);
+                }
+
+                //    if (filter.AgeIsHigher != null)
+                //{
+                //    if (flagForAndNoAndFlip == false)
+                //    {
+                //        stringBuilder.Append("WHERE AGE > @ageIsLower ");
+                //        command.Parameters.AddWithValue("@ageIsLower", filter.AgeIsLower);
+                //        flagForAndNoAndFlip = true;
+                //    }
+                //    else
+                //    {
+                //        stringBuilder.Append("AND WHERE AGE > @ageIsLower ");
+                //        command.Parameters.AddWithValue("@ageIsLower", filter.AgeIsLower);
+                //    }
+                //}
+                if (filter.AgeIsLower != null)
+                {
+                    stringBuilder.Append("AND WHERE AGE > @ageIsLower ");
+                    command.Parameters.AddWithValue("@ageIsLower", filter.AgeIsLower);
+                }
+
+
+                //    if (filter.Nationality != null)
+                //{
+                //    if (flagForAndNoAndFlip == false)
+                //    {
+                //        stringBuilder.Append("WHERE Nationality = @nationality ");
+                //        command.Parameters.AddWithValue("@Nationality", filter.Nationality);
+                //        flagForAndNoAndFlip = true;
+                //    }
+                //    else
+                //    {
+                //        stringBuilder.Append("AND WHERE Nationality = @nationality ");
+                //        command.Parameters.AddWithValue("@Nationality", filter.Nationality);
+                //    }
+                //}
+
+                if (filter.Nationality != null)
+                {
+                    stringBuilder.Append("AND WHERE Nationality = @Nationality ");
+                    command.Parameters.AddWithValue("@Nationality", filter.Nationality);
+                }
+
+                stringBuilder.Append(string.Format("ORDER BY {0} {1} ", sort.OrderBy, sort.SortBy));
+                stringBuilder.Append("OFFSET @formula ROWS FETCH NEXT @itemsByPage ROWS ONLY;");
+                
+                command.Parameters.AddWithValue("@formula", formula);
+                command.Parameters.AddWithValue("@itemsByPage", page.ItemsByPage);
+
+                command.CommandText = stringBuilder.ToString();
+
+                await conn.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
 
 
@@ -57,7 +157,7 @@ namespace Books.Repository
             {
                 int count = 0;
                 SqlCommand command = new SqlCommand("SELECT Count(*) FROM dbo.Author WHERE AuthorID = @param1", conn);
-                conn.Open();
+                await conn.OpenAsync();
                 command.Parameters.AddWithValue("@param1", id);
                 count = (int)await command.ExecuteScalarAsync();
 
@@ -71,7 +171,7 @@ namespace Books.Repository
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM dbo.Author WHERE AuthorID = @param1", conn);
                 Author searchedAuthor = new Author();
-                conn.Open();
+                await conn.OpenAsync();
                 command.Parameters.AddWithValue("@param1", id);
 
                 SqlDataReader reader = await command.ExecuteReaderAsync();
@@ -120,7 +220,7 @@ namespace Books.Repository
 
                     try
                     {
-                        conn.Open();
+                        await conn.OpenAsync();
                         await cmd.ExecuteNonQueryAsync();
                         return newAuthor;
                     }
@@ -144,7 +244,7 @@ namespace Books.Repository
 
                 SqlCommand command = new SqlCommand("SELECT AuthorID FROM dbo.Author WHERE AuthorID = @param1", conn);
                 command.Parameters.AddWithValue("@param1", id);
-                conn.Open();
+                await conn.OpenAsync();
 
                 using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
@@ -185,7 +285,7 @@ namespace Books.Repository
             {
                 int count = 0;
                 SqlCommand command = new SqlCommand("SELECT Count(*) FROM dbo.Author WHERE AuthorID = @param1", conn);
-                conn.Open();
+                await conn.OpenAsync();
                 command.Parameters.AddWithValue("@param1", id);
 
                 count = (int)await command.ExecuteScalarAsync();
@@ -201,7 +301,7 @@ namespace Books.Repository
             {
                 SqlCommand command = new SqlCommand("DELETE FROM dbo.Author WHERE AuthorID = @param1", conn);
                 command.Parameters.AddWithValue("@param1", id);
-                conn.Open();
+                await conn.OpenAsync();
                 await command.ExecuteNonQueryAsync();
                 return true;
             }
