@@ -12,6 +12,7 @@ namespace Books.Common
         public int? AgeIsLower { get; set; }
         public int? AgeIsHigher { get; set; }
         public string Nationality { get; set; }
+        public string Genre { get; set; }
 
         public Filtering(int? age, int? ageIsLower, int? ageIsHIgher, string Nationality)
         {
@@ -19,6 +20,11 @@ namespace Books.Common
             this.AgeIsLower = ageIsLower;
             this.AgeIsHigher = ageIsHIgher;
             this.Nationality = Nationality;
+        }
+
+        public Filtering(string genre)
+        {
+            this.Genre = genre;
         }
 
 

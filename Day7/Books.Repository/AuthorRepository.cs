@@ -51,11 +51,11 @@ namespace Books.Repository
 
                 if(filter.Age != null)
                 {
-                    stringBuilder.Append("AND WHERE AGE = @age ");
+                    stringBuilder.Append("AND AGE = @age ");
                     command.Parameters.AddWithValue("@age", filter.Age);
                 }
 
-                //if (filter.AgeIsLower != null)
+                //if (filter.AgeIsHigher != null)
                 //{
                 //    if (flagForAndNoAndFlip == false)
                 //    {
@@ -71,27 +71,27 @@ namespace Books.Repository
                 //}
                 if (filter.AgeIsHigher != null)
                 {
-                    stringBuilder.Append("AND WHERE AGE < @ageIsHigher ");
+                    stringBuilder.Append("AND AGE > @ageIsHigher ");
                     command.Parameters.AddWithValue("@ageIsHigher", filter.AgeIsHigher);
                 }
 
-                //    if (filter.AgeIsHigher != null)
+                //    if (filter.ageIsHigher != null)
                 //{
                 //    if (flagForAndNoAndFlip == false)
                 //    {
-                //        stringBuilder.Append("WHERE AGE > @ageIsLower ");
-                //        command.Parameters.AddWithValue("@ageIsLower", filter.AgeIsLower);
+                //        stringBuilder.Append("AGE > @ageIsHigher ");
+                //        command.Parameters.AddWithValue("@ageIsHigher", filter.AgeIsHigher);
                 //        flagForAndNoAndFlip = true;
                 //    }
                 //    else
                 //    {
-                //        stringBuilder.Append("AND WHERE AGE > @ageIsLower ");
-                //        command.Parameters.AddWithValue("@ageIsLower", filter.AgeIsLower);
+                //        stringBuilder.Append("AND AGE > @ageIsHigher ");
+                //        command.Parameters.AddWithValue("@ageIsHigher", filter.AgeIsHigher);
                 //    }
                 //}
                 if (filter.AgeIsLower != null)
                 {
-                    stringBuilder.Append("AND WHERE AGE > @ageIsLower ");
+                    stringBuilder.Append("AND AGE < @ageIsLower ");
                     command.Parameters.AddWithValue("@ageIsLower", filter.AgeIsLower);
                 }
 
@@ -100,20 +100,20 @@ namespace Books.Repository
                 //{
                 //    if (flagForAndNoAndFlip == false)
                 //    {
-                //        stringBuilder.Append("WHERE Nationality = @nationality ");
-                //        command.Parameters.AddWithValue("@Nationality", filter.Nationality);
+                //        stringBuilder.Append("Nationality = @nationality ");
+                //        command.Parameters.AddWithValue("@nationality", filter.Nationality);
                 //        flagForAndNoAndFlip = true;
                 //    }
                 //    else
                 //    {
-                //        stringBuilder.Append("AND WHERE Nationality = @nationality ");
-                //        command.Parameters.AddWithValue("@Nationality", filter.Nationality);
+                //        stringBuilder.Append("AND Nationality = @nationality ");
+                //        command.Parameters.AddWithValue("@nationality", filter.Nationality);
                 //    }
                 //}
 
                 if (filter.Nationality != null)
                 {
-                    stringBuilder.Append("AND WHERE Nationality = @Nationality ");
+                    stringBuilder.Append("AND Nationality = @Nationality ");
                     command.Parameters.AddWithValue("@Nationality", filter.Nationality);
                 }
 

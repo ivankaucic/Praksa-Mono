@@ -1,4 +1,5 @@
-﻿using Books.Model.Models;
+﻿using Books.Common;
+using Books.Model.Models;
 using Books.Repository.Common;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Books.Repository
 {
     public class BookRepository : IBookRepository
     {
-        public async Task<List<Book>> GetAllAsync()
+        public async Task<List<Book>> GetAllAsync(Paging page, Sorting sort, Filtering filter)
         {
             string connString = "Data Source=DESKTOP-27CEH1K\\SQLEXPRESS;Initial Catalog=Book;Integrated Security=True";
 
@@ -21,7 +22,26 @@ namespace Books.Repository
 
                 List<Book> books = new List<Book>();
 
-                SqlCommand command = new SqlCommand("SELECT * FROM dbo.Book;", conn);
+                int formula = ((page.PageNumber - 1) * page.ItemsByPage);
+
+                SqlCommand command = new SqlCommand();
+                command.Connection = conn;
+
+                StringBuilder stringBuilder = new StringBuilder("SELECT * FROM dbo.Book WHERE 1=1 ");
+
+                if (filter.Genre != null)
+                {
+                    stringBuilder.Append("AND Genre = @genre ");
+                    command.Parameters.AddWithValue("genre", filter.Genre);
+                }
+
+                stringBuilder.Append(string.Format("ORDER BY {0} {1} ", sort.OrderBy, sort.SortBy));
+                stringBuilder.Append("OFFSET @formula ROWS FETCH NEXT @itemsByPage ROWS ONLY;");
+
+                command.Parameters.AddWithValue("@formula", formula);
+                command.Parameters.AddWithValue("@itemsByPage", page.ItemsByPage);
+
+                command.CommandText = stringBuilder.ToString();
 
                 conn.Open();
                 SqlDataReader reader = await command.ExecuteReaderAsync();

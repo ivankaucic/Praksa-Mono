@@ -1,4 +1,5 @@
 ﻿using Book.Service.Common;
+using Books.Common;
 using Books.Repository;
 using Books.Repository.Common;
 using System;
@@ -20,9 +21,9 @@ namespace Books.Service
             this._repository = repository;
         }
 
-       public async Task<List<Books.Model.Models.Book>> GetAllAsync()
+       public async Task<List<Books.Model.Models.Book>> GetAllAsync(Paging page, Sorting sort, Filtering filter)
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllAsync(page, sort, filter);
         }
 
        public async Task<Books.Model.Models.Book> GetAsync(Guid id)
