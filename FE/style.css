@@ -1,4 +1,68 @@
-#myBorder
+.flex-container 
 {
-    border : 3em;    
+    display:flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+#myTable
+{
+  order: 3;
+  border-style: ridge;
+  border-color: coral;
+  border-width: 3px;
+  border-top:   0;
+  border-left:  0; 
+  border-right: 0;
+  margin-top: 2%;  
+}
+
+#tableHeader
+{
+    background-color :rgb(53, 231, 231);
+    padding: 20%;    
+}
+
+.tableHeaderElement
+{
+    text-align: center;
+}
+
+td
+{  
+    border : 0;
+    margin-right: 10%;
+    text-align:end;
+}
+
+div
+{
+    padding-bottom: 2%;
+}
+
+
+label
+{
+    font-weight : bold;
+    font-family:'Franklin Gothic Medium';
+    padding-right: 2%;
+}
+
+#bookForm
+{   
+    order: 1;
+    border-radius: 5px;
+    padding: 3%;
+    background-color:rgb(164, 237, 135);
+    font-size:medium;
+}
+
+#addBookBtn
+{
+    order:2;
+    margin-top: 3%;
+    
 }

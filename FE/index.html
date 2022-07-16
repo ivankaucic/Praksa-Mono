@@ -8,21 +8,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form>
-        <input type="text" id="bookId" placeholder="enter bookId"><br/>
-        <input type="text" id="bookName" placeholder="enter bookName"><br/>
-        <input type="text" id="bookAuthor" placeholder="enter bookAuthor"><br/>
-        <input type="number" id="bookPrice" placeholder="enter bookPrice"><br/>
-    </form>
-    <input type="button" value="Add a book" onclick="myFunction();"/>
-    <h1>My Table</h1>
-    <table id="myTable" border="1">
-        <tr>
-            <td>Book ID</td>
-            <td>Book Name</td>
-            <td>Book Author</td>
-            <td>Price</td>
-        </tr>
-    </table>
+    <div class="flex-container">
+        <form name="bookform" id="bookForm" onsubmit="addBook(); return false;" required>
+            <div>
+            <label>Enter book ID:</label>
+            <input type="text" id="bookId" placeholder="enter bookId" required /><br/>
+            </div>
+            <div>
+            <label>Enter book name:</label>
+            <input type="text" id="bookName" placeholder="enter bookName" required /><br/>
+            </div>
+            <div>
+            <label>Enter book author:</label>
+            <input type="text" id="bookAuthor" placeholder="enter bookAuthor" required /><br/>
+            </div>
+            <div>
+            <label>Enter book price:</label>
+            <input type="number" id="bookPrice" placeholder="enter bookPrice" required /><br/>
+            </div>
+        </form>
+        <input type="button" id="addBookBtn" value="Add a book" onclick="addBook();"/>
+        <h1>My Table</h1>
+        <table id="myTable" border="1">
+            <tr id="tableHeader">
+                <td class="tableHeaderElement">Book ID</td>
+                <td class="tableHeaderElement">Book Name</td>
+                <td class="tableHeaderElement">Book Author</td>
+                <td class="tableHeaderElement">Price</td>
+            </tr>
+        </table>
+    </div>
+    <script src="index.js"></script>
 </body>
 </html>
