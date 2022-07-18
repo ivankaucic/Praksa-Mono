@@ -1,0 +1,16 @@
+.bookForm
+{   
+    order: 1;
+    border-radius: 5px;
+    padding: 3%;
+    background-color: #850670;
+    font-size:medium;
+    margin-top:2%;
+}
+
+label
+{
+    font-weight : bold;
+    font-family:'Franklin Gothic Medium';
+    padding-right: 2%;
+}

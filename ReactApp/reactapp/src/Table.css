@@ -1,0 +1,31 @@
+.myTable
+{
+  order: 4;
+  border-style: ridge;
+  border-color: coral;
+  border-width: 3px;
+  border-top:   0;
+  border-left:  0; 
+  border-right: 0;
+  margin-top: 2%;  
+}
+
+
+#tableHeader
+{
+    background-color : #4CAF50;
+    padding: 20%;    
+}
+
+.tableHeaderElement
+{
+    text-align: center;
+}
+
+td
+{  
+    border : 0;
+    margin-right: 10%;
+    text-align:end;
+    color : white;
+}

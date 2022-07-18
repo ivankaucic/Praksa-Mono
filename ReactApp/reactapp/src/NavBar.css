@@ -1,0 +1,46 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #de7373a5;
+    align-items: center;
+}
+  
+li a {
+    justify-content: center;
+    display: block;
+    padding: 2%;
+    background-color: #b4e290;
+}
+  
+  /* Change the link color on hover */
+li a:hover {
+    background-color: #555;
+    color: white;
+}
+
+.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+ul {
+    border: 2px solid #555;
+}
+
+
+li {
+    background-color:#04AA6D;
+    margin-left: 5%;
+    display: inline;
+    border-bottom: 1px solid #555;
+}
+  
+li:last-child {
+    border-bottom: none;
+}
+
+li:hover{
+    background-color: rgb(104, 11, 22);
+}

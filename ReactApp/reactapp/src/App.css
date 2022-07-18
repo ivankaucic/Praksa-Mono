@@ -1,0 +1,9 @@
+.flex-container 
+{
+    display:flex;
+    flex-flow: column wrap;
+    justify-content:flex-start;
+    align-items: center;
+    background-color: #4a412a;
+}
+
