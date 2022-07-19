@@ -2,9 +2,22 @@ import './App.css';
 import Form from './Form.js';
 import Navbar from './NavBar.js';
 import sound from './song.mp3';
-import Quiz from './Quiz.js';
+import Dropdown from './Dropdown.js';
+import React, { useState } from 'react';
 
-function App() {
+function App() {  
+
+  const[countryList] = useState([ { id: 1, name: "Banana" },
+                                                  { id: 2, name: "Apple" },
+                                                  { id: 3, name: "Pear" },
+                                                  { id: 4, name: "Fig" },
+                                                  { id: 5, name: "Orange" },
+                                                  { id: 6, name: "Watermelon" },
+                                                  { id: 7, name: "Calaope" },
+                                                  { id: 8, name: "Kiwi" },
+                                                  { id: 9, name: "Grape" },
+                                                  { id: 10, name: "Cherry" }]);
+
   return (
     <div className="flex-container">
       <Navbar navItemNameOne="Home" navItemNameTwo="Info" navItemNameThree="Books" navItemNameFour="Authors"/>      
@@ -13,7 +26,7 @@ function App() {
       <audio autostart="true" autoplay="true" loop="true">
         <source src={sound} type="audio/mpeg"/>
       </audio> 
-      <Quiz/>
+      <Dropdown defaultText="Please set an option" optionsList={countryList}/>
     </div>    
   );
 }

@@ -1,0 +1,24 @@
+ #select-options{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .select-options {
+    position: absolute;
+    width: 100%;
+  }
+  
+  #custom-select-option {
+    list-style-type:none;
+    padding: 6px 20px;
+    background: #47eded;
+    border-bottom: 1px solid #37b0b0;
+    cursor: pointer;
+    display:block;
+  }
+  
+  #custom-select-option:hover {
+    background-color: #32a6a6;
+    color: #ffffff;
+  }

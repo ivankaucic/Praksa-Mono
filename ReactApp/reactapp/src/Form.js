@@ -14,22 +14,28 @@ function Form(props) {
     }
 
     function checkIfEmpty(value){
-        if(!value){setError("Empty");}
-        else{setError("");}
+        if(!value){return true;}
+        else{return false;}
     }
 
     function handleSubmit(){
         setBookList([...bookList,book]);
-        checkIfEmpty(book.bookId);
-        checkIfEmpty(book.bookName);
-        checkIfEmpty(book.bookAuthor);
-        checkIfEmpty(book.bookPrice);
-        setBook({
-            bookId : "",
-            bookName : "",
-            bookAuthor : "",
-            bookPrice : ""
-        });
+        if(checkIfEmpty(book.bookId) ||
+        checkIfEmpty(book.bookName) ||
+        checkIfEmpty(book.bookAuthor) ||
+        checkIfEmpty(book.bookPrice)){
+            setError("At least one of the inputs is empty");
+            return null;
+        }else{
+            setBook({
+                bookId : "",
+                bookName : "",
+                bookAuthor : "",
+                bookPrice : ""
+            });
+            setError("");
+        }
+        
     }
     
   return (

@@ -33,7 +33,7 @@ ul {
 li {
     background-color:#04AA6D;
     margin-left: 5%;
-    display: inline;
+    display: block;
     border-bottom: 1px solid #555;
 }
   
