@@ -46,7 +46,7 @@ namespace Books.WebApi.Controllers
             { 
                 foreach(Author author in authors)
                 {
-                    authorsRest.Add(new AuthorRest(author.AuthorName, author.Age, author.Nationality));
+                    authorsRest.Add(new AuthorRest(author.AuthorID,author.AuthorName, author.Age, author.Nationality));
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, authorsRest); 
             }
@@ -68,7 +68,7 @@ namespace Books.WebApi.Controllers
 
             else 
             {
-                AuthorRest authorById = new AuthorRest(result.AuthorName, result.Age, result.Nationality);
+                AuthorRest authorById = new AuthorRest(result.AuthorID,result.AuthorName, result.Age, result.Nationality);
                 return Request.CreateResponse(HttpStatusCode.OK, authorById); 
             }
 
@@ -126,12 +126,14 @@ namespace Books.WebApi.Controllers
 
     public class AuthorRest
     {
+        public Guid Id;
         public string AuthorName { get; set; }
         public int Age { get; set; }
         public string Nationality { get; set; }
 
-        public AuthorRest(string authorName, int authorAge, string authorNationality)
+        public AuthorRest(Guid id,string authorName, int authorAge, string authorNationality)
         {
+            this.Id = id;
             this.AuthorName = authorName;
             this.Age = authorAge;
             this.Nationality = authorNationality;
